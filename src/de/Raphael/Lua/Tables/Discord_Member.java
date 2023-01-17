@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.ClientType;
 import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 
 public class Discord_Member {
 	private static Member member;
@@ -19,6 +20,9 @@ public class Discord_Member {
 	
 	public LuaTable GetTable() {
 		LuaTable tbl = new LuaTable();
+		
+		tbl.set("canInteract", new canInteract());
+		tbl.set("canInteractRole", new canInteractRole());
 		
 		tbl.set("isOwner", new isOwner());
 		tbl.set("isPending", new isPending());
@@ -40,6 +44,34 @@ public class Discord_Member {
 		tbl.set("getEffectiveAvatarUrl", new getEffectiveAvatarUrl());
 		
 		return tbl;
+	}
+	
+	static class canInteract extends OneArgFunction {
+		@Override
+		public LuaValue call(LuaValue value) {
+			Member target;
+			if (value.istable()) {
+				target = member.getGuild().getMemberByTag(value.call("getId").toString());
+			} else {
+				target = member.getGuild().getMemberByTag(value.toString());
+			}
+
+			return valueOf(member.canInteract(target));
+		}
+	}
+	
+	static class canInteractRole extends OneArgFunction {
+		@Override
+		public LuaValue call(LuaValue value) {
+			Role role;
+			if (value.istable()) {
+				role = member.getGuild().getRoleById(value.toString());
+			} else {
+				role = member.getGuild().getRoleById(value.toString());
+			}
+
+			return valueOf(member.canInteract(role));
+		}
 	}
 	
 	static class isTimedOut extends ZeroArgFunction {
@@ -98,6 +130,18 @@ public class Discord_Member {
 		}
 	}
 	
+	static class getRoles extends OneArgFunction {
+		@Override
+		public LuaValue call(LuaValue value) {
+			LuaTable tbl = new LuaTable();
+			for (Role r : member.getRoles()) {
+				tbl.set(r.getName(), new Discord_Role(member.getGuild().getRoleById(r.getId())).GetTable());
+			}
+
+			return tbl;
+		}
+	}
+	
 	static class getColor extends ZeroArgFunction {
 		@Override
 		public LuaValue call() {
@@ -145,7 +189,7 @@ public class Discord_Member {
 		public LuaValue call() {
 			LuaTable tbl = new LuaTable();
 			for (Activity activity : member.getActivities()) {
-				tbl.set(activity.getName(), "true");
+				tbl.set(activity.getName(), valueOf(true));
 			}
 
 			return tbl;
@@ -157,7 +201,7 @@ public class Discord_Member {
 		public LuaValue call() {
 			LuaTable tbl = new LuaTable();
 			for (Permission permission : member.getPermissions()) {
-				tbl.set(permission.getName(), "true");
+				tbl.set(permission.getName(), valueOf(true));
 			}
 
 			return tbl;

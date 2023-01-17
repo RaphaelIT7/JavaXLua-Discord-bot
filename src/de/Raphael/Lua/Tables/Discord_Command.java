@@ -96,7 +96,16 @@ public class Discord_Command {
 	static class getTimeCreated extends ZeroArgFunction {
 		@Override
 		public LuaValue call() {
-			return valueOf(event.getTimeCreated().toString());
+			LuaTable tbl = new LuaTable();
+			tbl.set("year", event.getTimeCreated().getYear());
+			tbl.set("month", event.getTimeCreated().getMonth().toString());
+			tbl.set("day", event.getTimeCreated().getDayOfMonth());
+			tbl.set("hour", event.getTimeCreated().getHour());
+			tbl.set("minute", event.getTimeCreated().getMinute());
+			tbl.set("second", event.getTimeCreated().getSecond());
+			tbl.set("milisecond", event.getTimeCreated().getNano());
+	
+			return tbl;
 		}
 	}
 	

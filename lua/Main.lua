@@ -1,5 +1,6 @@
-discord.create("[Token]")
+print("Hello World!", _G)
+print(discord.Create(""))
 
-discord.registercommand("test", "a", function(tbl)
-	print("WORKED")
+discord.RegisterCommand("test2", "a", function(tbl)
+	print("LOL", tbl.getMember().isOnlineStatus("ONLINE"))
 end)
