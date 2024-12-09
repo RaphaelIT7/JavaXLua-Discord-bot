@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 
 public class CommandBase {
 	
+	public boolean isOverride = false;
 	public void Command(SlashCommandInteractionEvent event) {
 		
 	}

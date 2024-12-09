@@ -18,6 +18,9 @@ public class CommandManager extends ListenerAdapter{
 	@SuppressWarnings("static-access")
 	public void AddCommand(String name, String description, CommandBase Command) {
 		Main.Bot.jda.upsertCommand(name, description).queue();
+		if (Commands.containsKey(name)) {
+			Command.isOverride = true;
+		}
 		Commands.put(name, Command);
 	}
 	

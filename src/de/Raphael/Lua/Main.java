@@ -31,7 +31,7 @@ public class Main {
 		LUA.load(new JseMathLib());
 		LUA.load(new JseIoLib());
 		LUA.load(new JseOsLib());
-		LUA.set("a", new LuaUserdata(new Object()));
+		//LUA.set("a", new LuaUserdata(new Object()));
 		/*Main_Functions main_functions =*/ new Main_Functions(LUA);
 		/*Discord_Functions discord_functions =*/ new Discord_Functions(LUA);
 		Lua_LoadFolder("lua");

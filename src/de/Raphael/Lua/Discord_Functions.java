@@ -8,6 +8,7 @@ import org.luaj.vm2.lib.ThreeArgFunction;
 
 import de.Raphael.Discord.Manager;
 import de.Raphael.Discord.Base.Lua_CommandBase;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 
 public class Discord_Functions {
 	private static Globals LUA;

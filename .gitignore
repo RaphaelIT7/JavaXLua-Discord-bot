@@ -1,0 +1,6 @@
+
+target/**
+target/classes/de/Raphael/Lua/Discord_Functions$registercommand.class
+run.java
+run.jar
+JavaXLua-Discord-bot.zip
